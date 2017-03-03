@@ -1,10 +1,12 @@
 package WalterOseguera_Lab7;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -150,6 +152,15 @@ public class FPrincipal extends javax.swing.JFrame {
 
         jLabel6.setText("Color de piel: ");
 
+        BColorPiel.setBackground(new java.awt.Color(255, 255, 255));
+        BColorPiel.setForeground(new java.awt.Color(255, 255, 255));
+        BColorPiel.setBorderPainted(false);
+        BColorPiel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BColorPielMouseClicked(evt);
+            }
+        });
+
         jLabel7.setText("Árbol de familiares");
 
         javax.swing.GroupLayout PPersonasLayout = new javax.swing.GroupLayout(PPersonas);
@@ -158,10 +169,6 @@ public class FPrincipal extends javax.swing.JFrame {
             PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PPersonasLayout.createSequentialGroup()
                 .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PPersonasLayout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(BAgregarPersona)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(PPersonasLayout.createSequentialGroup()
                         .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(PPersonasLayout.createSequentialGroup()
@@ -184,20 +191,25 @@ public class FPrincipal extends javax.swing.JFrame {
                                             .addGroup(PPersonasLayout.createSequentialGroup()
                                                 .addComponent(jLabel1)
                                                 .addGap(57, 57, 57)
-                                                .addComponent(TFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(PPersonasLayout.createSequentialGroup()
-                                                .addGap(108, 108, 108)
-                                                .addComponent(BColorPiel)))
+                                                .addComponent(TFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(PPersonasLayout.createSequentialGroup()
                                 .addContainerGap(23, Short.MAX_VALUE)
                                 .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addGroup(PPersonasLayout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(TFLugarNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(11, 11, 11)))
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6))
+                                .addGap(18, 18, 18)
+                                .addComponent(TFLugarNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(11, 11, 11))
+                    .addGroup(PPersonasLayout.createSequentialGroup()
+                        .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(PPersonasLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(BColorPiel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PPersonasLayout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(BAgregarPersona)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PPersonasLayout.createSequentialGroup()
@@ -233,10 +245,13 @@ public class FPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(TFLugarNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(BColorPiel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(29, 29, 29)
+                        .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PPersonasLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PPersonasLayout.createSequentialGroup()
+                                .addComponent(BColorPiel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
                         .addComponent(BAgregarPersona)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -432,7 +447,12 @@ public class FPrincipal extends javax.swing.JFrame {
                 BW.write(TFNacionalidad.getText());
                 BW.write(TFLugarNacimiento.getText());
                 BW.write(BColorPiel.getColorModel().toString());
-                
+                TFNombre.setText("");
+                TFID.setText("");
+                SEdad.setValue(20);
+                TFNacionalidad.setText("");
+                TFLugarNacimiento.setText("");
+                BColorPiel.setBackground(Color.white);
                 BW.flush();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -446,6 +466,10 @@ public class FPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_MIGuardarActionPerformed
+
+    private void BColorPielMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BColorPielMouseClicked
+        BColorPiel.setBackground(JColorChooser.showDialog(this, "Seleccione un color: ", Color.yellow));
+    }//GEN-LAST:event_BColorPielMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
