@@ -167,8 +167,6 @@ public class FPrincipal extends javax.swing.JFrame {
 
         jLabel6.setText("Color de piel: ");
 
-        BColorPiel.setBackground(new java.awt.Color(255, 255, 255));
-        BColorPiel.setForeground(new java.awt.Color(255, 255, 255));
         BColorPiel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BColorPielMouseClicked(evt);
@@ -535,39 +533,29 @@ public class FPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_BColorPielMouseClicked
 
     private void BAgregarPersonaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BAgregarPersonaMouseClicked
-        DefaultTreeModel Modelo = (DefaultTreeModel) TFamiliares.getModel();
-        DefaultMutableTreeNode Nodo = (DefaultMutableTreeNode) Modelo.getRoot();
-        String Nombre = TFNombre.getText();
-        DefaultMutableTreeNode NodoPersona;
-        NodoPersona = new DefaultMutableTreeNode(new Personas(TFNombre.getText(), Long.parseLong(TFID.getText()), 
+        try {
+            DefaultTreeModel Modelo = (DefaultTreeModel) TFamiliares.getModel();
+            DefaultMutableTreeNode Nodo = (DefaultMutableTreeNode) Modelo.getRoot();
+        
+            DefaultMutableTreeNode NodoPersona;
+            NodoPersona = new DefaultMutableTreeNode(new Personas(TFNombre.getText(), Long.parseLong(TFID.getText()), 
                 (Integer)SEdad.getValue(), TFNacionalidad.getText(), TFLugarNacimiento.getText(), 
                 BColorPiel.getBackground()));
-        DefaultMutableTreeNode NPersona;
-        NPersona = new DefaultMutableTreeNode(TFNombre.getText());
+            DefaultMutableTreeNode NPersona;
+            NPersona = new DefaultMutableTreeNode(TFNombre.getText());
         
-        Nodo.add(NodoPersona);
-        NodoPersona.add(NPersona);
-        Modelo.reload();
-        TFNombre.setText("");
-        TFID.setText("");
-        SEdad.setValue(20);
-        TFNacionalidad.setText("");
-        TFLugarNacimiento.setText("");
-        BColorPiel.setBackground(Color.white);
-        
-        boolean Centinela = true;
-            for (int j = 0; j < Nodo.getChildCount(); j++) {
-                if (Nodo.getChildAt(j).toString().equals(Nombre)) {
-                    ((DefaultMutableTreeNode) Nodo.getChildAt(j)).add(NodoPersona);
-                    Centinela = false;
-                } // Fin if
-            } // Fin for j
-            
-            if (Centinela) {
-                DefaultMutableTreeNode Nom = new DefaultMutableTreeNode(Nombre);
-                Nom.add(NodoPersona);
-                Nodo.add(Nom);
-            }
+            Nodo.add(NodoPersona);
+            NodoPersona.add(NPersona);
+            Modelo.reload();
+            TFNombre.setText("");
+            TFID.setText("");
+            SEdad.setValue(20);
+            TFNacionalidad.setText("");
+            TFLugarNacimiento.setText("");
+            BColorPiel.setBackground(Color.white);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_BAgregarPersonaMouseClicked
 
     public static void main(String args[]) {
@@ -578,7 +566,7 @@ public class FPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
