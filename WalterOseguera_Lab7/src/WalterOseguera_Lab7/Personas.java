@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class Personas {
     private String Nombre;
-    private int ID;
+    private long ID;
     private int Edad;
     private String Nacionalidad;
     private String LugarNacimiento;
@@ -14,7 +14,7 @@ public class Personas {
     public Personas() {
     }
 
-    public Personas(String Nombre, int ID, int Edad, String Nacionalidad, String LugarNacimiento, Color Color) {
+    public Personas(String Nombre, long ID, int Edad, String Nacionalidad, String LugarNacimiento, Color Color) {
         this.Nombre = Nombre;
         this.ID = ID;
         this.Edad = Edad;
@@ -31,7 +31,7 @@ public class Personas {
         this.Nombre = Nombre;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
@@ -73,6 +73,11 @@ public class Personas {
 
     public void setColor(Color Color) {
         this.Color = Color;
+    }
+
+    @Override
+    public String toString() {
+        return Nombre;
     }
     
 } // Fin class Personas
