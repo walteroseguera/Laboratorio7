@@ -243,8 +243,8 @@ public class FPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(34, 34, 34)
                         .addGroup(PPersonasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TFNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(TFNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PPersonasLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(57, 57, 57)
@@ -535,18 +535,32 @@ public class FPrincipal extends javax.swing.JFrame {
     private void BAgregarPersonaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BAgregarPersonaMouseClicked
         try {
             DefaultTreeModel Modelo = (DefaultTreeModel) TFamiliares.getModel();
-            DefaultMutableTreeNode Nodo = (DefaultMutableTreeNode) Modelo.getRoot();
-        
-            DefaultMutableTreeNode NodoPersona;
-            NodoPersona = new DefaultMutableTreeNode(new Personas(TFNombre.getText(), Long.parseLong(TFID.getText()), 
-                (Integer)SEdad.getValue(), TFNacionalidad.getText(), TFLugarNacimiento.getText(), 
-                BColorPiel.getBackground()));
+            DefaultMutableTreeNode Raiz = (DefaultMutableTreeNode) Modelo.getRoot();
+
             DefaultMutableTreeNode NPersona;
             NPersona = new DefaultMutableTreeNode(TFNombre.getText());
-        
-            Nodo.add(NodoPersona);
-            NodoPersona.add(NPersona);
+            String Nombre = NPersona.toString();
+            boolean Centinela = true;
+            for (int j = 0; j < Raiz.getChildCount(); j++) {
+                if (!Raiz.getChildAt(j).toString().equals(Nombre)) {
+                    DefaultMutableTreeNode P = new DefaultMutableTreeNode(new Personas(TFNombre.getText(), Long.parseLong(TFID.getText()), 
+                            (Integer)SEdad.getValue(), TFNacionalidad.getText(), TFLugarNacimiento.getText(), 
+                            BColorPiel.getBackground()));
+                    ((DefaultMutableTreeNode) Raiz.getChildAt(j)).add(P);
+                    Centinela = false;
+                } // Fin if
+            } // Fin for j
+            
+            if (Centinela) {
+                DefaultMutableTreeNode Nom = new DefaultMutableTreeNode(Nombre);
+                DefaultMutableTreeNode P = new DefaultMutableTreeNode(new Personas(TFNombre.getText(), Long.parseLong(TFID.getText()), 
+                        (Integer)SEdad.getValue(), TFNacionalidad.getText(), TFLugarNacimiento.getText(), 
+                        BColorPiel.getBackground()));
+                Nom.add(P);
+                Raiz.add(Nom);
+            }
             Modelo.reload();
+            
             TFNombre.setText("");
             TFID.setText("");
             SEdad.setValue(20);
