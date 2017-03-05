@@ -6,10 +6,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -58,6 +60,11 @@ public class FPrincipal extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         PListar = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TablaListar = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
+        BEliminarL = new javax.swing.JButton();
+        BLimpiarL = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -93,6 +100,12 @@ public class FPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gatos y Baleadas Trump");
+
+        TPInicio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                TPInicioStateChanged(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Programas");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Carpeta1");
@@ -319,15 +332,72 @@ public class FPrincipal extends javax.swing.JFrame {
 
         TPInicio.addTab("Personas", PPersonas);
 
+        TablaListar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Edad", "Nacionalidad", "Color de Piel"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(TablaListar);
+
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel11.setText("Personas Eliminadas del Árbol Familiares: ");
+
+        BEliminarL.setText("Eliminar");
+        BEliminarL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BEliminarLMouseClicked(evt);
+            }
+        });
+
+        BLimpiarL.setText("Limpiar");
+        BLimpiarL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BLimpiarLMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout PListarLayout = new javax.swing.GroupLayout(PListar);
         PListar.setLayout(PListarLayout);
         PListarLayout.setHorizontalGroup(
             PListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGroup(PListarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+                    .addGroup(PListarLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(PListarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BEliminarL, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(BLimpiarL, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
         );
         PListarLayout.setVerticalGroup(
             PListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 495, Short.MAX_VALUE)
+            .addGroup(PListarLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel11)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(PListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BEliminarL, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BLimpiarL, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         TPInicio.addTab("Listar", PListar);
@@ -475,6 +545,11 @@ public class FPrincipal extends javax.swing.JFrame {
         
         if (Resp == JOptionPane.OK_OPTION) {
             DefaultTreeModel Modelo = (DefaultTreeModel) TFamiliares.getModel();
+            Personas Persona = (Personas)PersonaSeleccionada;
+            Object [] row = {Persona.getNombre(), Persona.getEdad(), Persona.getNacionalidad(), Persona.getColor()};
+            DefaultTableModel MTabla = (DefaultTableModel) TablaListar.getModel();
+            MTabla.addRow(row);
+            TablaListar.setModel(MTabla);
             Modelo.removeNodeFromParent(NodoSeleccionado);
             Modelo.reload();
         } // Fin if
@@ -572,6 +647,39 @@ public class FPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BAgregarPersonaMouseClicked
 
+    private void TPInicioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TPInicioStateChanged
+        if (this.TPInicio.getSelectedIndex() == 2) {
+            
+        }
+    }//GEN-LAST:event_TPInicioStateChanged
+
+    private void BEliminarLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BEliminarLMouseClicked
+        if (TablaListar.getSelectedRow() >= 0) {
+            DefaultTableModel Modelo = (DefaultTableModel) TablaListar.getModel();
+            Modelo.removeRow(TablaListar.getSelectedRow());
+            TablaListar.setModel(Modelo);
+        }
+    }//GEN-LAST:event_BEliminarLMouseClicked
+
+    private void BLimpiarLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BLimpiarLMouseClicked
+        TablaListar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Edad", "Nacionalidad", "Color de Piel"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+    }//GEN-LAST:event_BLimpiarLMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -608,6 +716,8 @@ public class FPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton BAbrir;
     private javax.swing.JButton BAgregarPersona;
     private javax.swing.JButton BColorPiel;
+    private javax.swing.JButton BEliminarL;
+    private javax.swing.JButton BLimpiarL;
     private javax.swing.ButtonGroup Groupo1;
     private javax.swing.JMenu MArchivos;
     private javax.swing.JMenuItem MIAbout;
@@ -630,9 +740,11 @@ public class FPrincipal extends javax.swing.JFrame {
     private javax.swing.JTree TFamiliares;
     private javax.swing.JTabbedPane TPInicio;
     private javax.swing.JTree TPrincipal;
+    private javax.swing.JTable TablaListar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -648,8 +760,10 @@ public class FPrincipal extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+    ArrayList<Personas> ListaPersonas = new ArrayList();
     DefaultMutableTreeNode NodoSeleccionado;
     Personas PersonaSeleccionada;
 }
